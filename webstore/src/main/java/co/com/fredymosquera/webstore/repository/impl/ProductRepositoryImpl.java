@@ -6,7 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -85,6 +88,38 @@ public class ProductRepositoryImpl implements ProductRepository {
 		sql.append("WHERE productId = ?");
 		return sql.toString();
 	}
+	private String getSelectSqlProductsByCategory() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT ");
+		sql.append("productId, "); 
+		sql.append("name, "); 
+		sql.append("unitPrice, "); 
+		sql.append("description, "); 
+		sql.append("manufacturer, ");
+		sql.append("category, "); 
+		sql.append("unitsInStock, "); 
+		sql.append("unitsInOrder, "); 
+		sql.append("discontinued "); 
+		sql.append("FROM webstore.products ");
+		sql.append("WHERE category = ?");
+		return sql.toString();
+	}
+	private String getSelectSqlProductsByBrand() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT ");
+		sql.append("productId, "); 
+		sql.append("name, "); 
+		sql.append("unitPrice, "); 
+		sql.append("description, "); 
+		sql.append("manufacturer, ");
+		sql.append("category, "); 
+		sql.append("unitsInStock, "); 
+		sql.append("unitsInOrder, "); 
+		sql.append("discontinued "); 
+		sql.append("FROM webstore.products ");
+		sql.append("WHERE manufacturer = ?");
+		return sql.toString();
+	}
 	@Override
 	public Product getProductById(String productId) {
 		Connection conn;
@@ -105,6 +140,67 @@ public class ProductRepositoryImpl implements ProductRepository {
 			e.printStackTrace();
 		}
 		return product;
+	}
+	@Override
+	public List<Product> getProductByCategory(String category) {
+		Connection conn;
+		ResultSet rs;
+		PreparedStatement ps;
+		List<Product> products = new ArrayList<>();
+		try {
+			conn  = dataSource.getConnection();
+			ps = conn.prepareStatement(getSelectSqlProductsByCategory());
+			int i = 1;
+			ps.setString(i++, category);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Product product = getProduct(rs);
+				products.add(product);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return products;
+	}
+	@Override
+	public List<Product> getProductByBrand(String brand) {
+		Connection conn;
+		ResultSet rs;
+		PreparedStatement ps;
+		List<Product> products = new ArrayList<>();
+		try {
+			conn  = dataSource.getConnection();
+			ps = conn.prepareStatement(getSelectSqlProductsByBrand());
+			int i = 1;
+			ps.setString(i++, brand);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Product product = getProduct(rs);
+				products.add(product);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return products;
+	}
+	@Override
+	public Set<Product> getProductsByFilter(Map<String, List<String>> filters) {
+		Set<String> criteria = filters.keySet();
+		Set<Product> products = new HashSet<>();
+		if(criteria.contains("brand")) {
+			for (String brand : filters.get("brand")) {
+				products.addAll(getProductByBrand(brand));
+			}
+		
+		}
+		if(criteria.contains("category")) {
+			for (String category : filters.get("category")) {
+				products.addAll(getProductByCategory(category));
+			}
+		}
+		return products;
 	}
 
 }
