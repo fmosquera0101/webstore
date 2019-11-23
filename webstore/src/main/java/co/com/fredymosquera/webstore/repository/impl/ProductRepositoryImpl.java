@@ -13,6 +13,7 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -199,6 +200,78 @@ public class ProductRepositoryImpl implements ProductRepository {
 			for (String category : filters.get("category")) {
 				products.addAll(getProductByCategory(category));
 			}
+		}
+		return products;
+	}
+	@Override
+	public List<Product> getProductosByManufacturer(String category, Map<String, List<String>> filters,
+			String manufacturer) {
+		Connection conn;
+		ResultSet rs;
+		PreparedStatement ps;
+		List<Product> products = new ArrayList<>();
+		try {
+			
+			conn  = dataSource.getConnection();
+			
+			
+			Set<String> criteria = filters.keySet();
+			String priceLow = null;
+			String priceHigh = null;
+			if(criteria.contains("low")) {
+				priceLow = filters.get("low").get(0);
+			}
+			if(criteria.contains("high")) {
+				priceHigh = filters.get("high").get(0);
+			}
+		
+			
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT ");
+			sql.append("productId, "); 
+			sql.append("name, "); 
+			sql.append("unitPrice, "); 
+			sql.append("description, "); 
+			sql.append("manufacturer, ");
+			sql.append("category, "); 
+			sql.append("unitsInStock, "); 
+			sql.append("unitsInOrder, "); 
+			sql.append("discontinued "); 
+			sql.append("FROM webstore.products ");
+			sql.append("WHERE category = ? and manufacturer = ? ");
+			
+			if(StringUtils.isNotEmpty(priceLow) && StringUtils.isNotEmpty(priceHigh)) {
+				sql.append("and unitPrice >= ? and unitPrice <= ? ");
+			}else if(StringUtils.isNotEmpty(priceLow) && StringUtils.isEmpty(priceHigh)) {
+				sql.append("and unitPrice <= ?");
+			}else if(StringUtils.isEmpty(priceLow) && StringUtils.isNotEmpty(priceHigh)) {
+				sql.append("and unitPrice >= ?");
+			}
+			
+			ps = conn.prepareStatement(sql.toString());
+			
+			
+			int i = 1;
+			ps.setString(i++, category);
+			ps.setString(i++, manufacturer);
+			
+			if(StringUtils.isNotEmpty(priceLow) && StringUtils.isNotEmpty(priceHigh)) {
+				ps.setInt(i++, Integer.parseInt(priceLow));
+				ps.setInt(i++, Integer.parseInt(priceHigh));
+			}else if(StringUtils.isNotEmpty(priceLow) && StringUtils.isEmpty(priceHigh)) {
+				ps.setInt(i++, Integer.parseInt(priceLow));
+			}else if(StringUtils.isEmpty(priceLow) && StringUtils.isNotEmpty(priceHigh)) {
+				ps.setInt(i++, Integer.parseInt(priceHigh));
+			}
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Product product = getProduct(rs);
+				products.add(product);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return products;
 	}
