@@ -6,8 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet"
-	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 <title>Products</title>
 </head>
 <body>
@@ -21,8 +21,8 @@
 	</section>
 
 	<section class="container">
+	
 		<div class="row">
-
 			<div class="col-sm-6 col-md-3" style="padding-bottom: 15px">
 				<div class="thumbnail">
 					<div class="caption">
@@ -41,7 +41,7 @@
 							<strong>Available units in Stock</strong>: ${product.unitsInStock}
 						</p>
 						<h4>${product.unitPrice}USD</h4>
-						<a href=" <spring:url value="/products"/> " class="btn btn-default">
+						<a href=" <spring:url value="/products"/> " class="btn btn-light">
 									<span class="glyphicon-hand-left glyphicon"></span>Back
 								</a>
 						<a href="#" class="btn btn-warning btn-large">

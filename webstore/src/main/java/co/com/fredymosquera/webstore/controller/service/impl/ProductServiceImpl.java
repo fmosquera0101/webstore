@@ -43,4 +43,9 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.getProductosByManufacturer(category,filters,manufacturer);
 	}
 
+	@Override
+	public int addProduct(Product product) {
+		return productRepository.addProduct(product);
+	}
+
 }

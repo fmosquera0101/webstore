@@ -9,3 +9,6 @@ CREATE TABLE `webstore`.`products` (
   `unitsInOrder` INT NULL,
   `discontinued` VARCHAR(10) NULL,
   PRIMARY KEY (`productId`));
+  
+  ALTER TABLE `webstore`.`products` 
+CHANGE COLUMN `productId` `productId` INT(11) NOT NULL AUTO_INCREMENT ;
