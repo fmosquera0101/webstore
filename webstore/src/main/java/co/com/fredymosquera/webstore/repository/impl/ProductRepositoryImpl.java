@@ -289,9 +289,8 @@ public class ProductRepositoryImpl implements ProductRepository {
 			sql.append("`description`, ");
 			sql.append("`manufacturer`, ");
 			sql.append("`category`, ");
-			sql.append("`unitsInStock`, ");
-			sql.append("`discontinued`) ");
-			sql.append("VALUES (?, ?, ?, ?, ?, ?, ?)");
+			sql.append("`unitsInStock`)");
+			sql.append("VALUES (?, ?, ?, ?, ?, ?)");
 			ps = conn.prepareStatement(sql.toString());
 			int i = 1;
 			ps.setString(i++, product.getName());
@@ -300,7 +299,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 			ps.setString(i++, product.getManufacturer());
 			ps.setString(i++, product.getCategory());
 			ps.setInt(i++, (int)product.getUnitsInStock());
-			ps.setString(i++, String.valueOf(product.isDiscontinued()));
 			return ps.executeUpdate();
 
 		} catch (Exception e) {

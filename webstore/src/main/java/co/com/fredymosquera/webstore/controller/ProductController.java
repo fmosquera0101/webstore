@@ -3,9 +3,13 @@ package co.com.fredymosquera.webstore.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,9 +73,18 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addNewProduct(@ModelAttribute("product") Product product, Model model) {
+	public String addNewProduct(@ModelAttribute("product") Product product, BindingResult bindibgResult, Model model) {
+		String[] suppressedFields = bindibgResult.getSuppressedFields();
+		if(suppressedFields.length > 0) {
+			throw new RuntimeException("Attempting to bind disallowed fields: ");
+		}
 		productService.addProduct(product);
 		return "redirect:/products";
+	}
+	
+	@InitBinder
+	public void initialsBinder(WebDataBinder webDataBinder) {
+		webDataBinder.setDisallowedFields("unitsInOrder", "discontinued");
 	}
 	
 	

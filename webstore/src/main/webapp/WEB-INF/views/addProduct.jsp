@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
@@ -19,6 +19,7 @@
 			<div class="container">
 				<h1>Add Products</h1>
 				<p>Add your product in the following section</p>
+				<a href="<c:url value="/j_spring_security_logout" />" class="btn btn-danger">logout</a>
 			</div>
 		</div>
 	</section>
@@ -64,16 +65,9 @@
 
 			<div class="form-group">
 				<label for="description">Description</label>
-				<form:textarea class="form-control" id="description" path="description" rows="3"></form:textarea>
+				<form:textarea class="form-control" id="description" path="description" rows="3" maxlength="100"></form:textarea>
 			</div>
 			
-			<div class="form-group">
-    			<label for="discontinued">Discontinued</label>
-   				 	<form:select class="form-control" id="discontinued" path="discontinued">
-      					<option>false</option>
-     				 	<option>true</option>
-    			</form:select>
-  			</div>
 			<input id="bntAdd" type="submit" class="btn btn-primary" value="Add"/>
 		</form:form>
 	</section>
