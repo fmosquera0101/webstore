@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,9 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import co.com.fredymosquera.webstore.controller.service.ProductService;
 import co.com.fredymosquera.webstore.domain.Product;
+import co.com.fredymosquera.webstore.exception.NoProductFoundException;
+import co.com.fredymosquera.webstore.exception.NoProductFoundUnderCategoryException;
 
 @Controller
 @RequestMapping("/products")
@@ -48,7 +52,11 @@ public class ProductController {
 	
 	@RequestMapping("/{category}")
 	public String getProductByCategory(Model model, @PathVariable("category") String category) {
-		model.addAttribute("products", productService.getProductByCategory(category));
+		List<Product> products = productService.getProductByCategory(category);
+		if(null == products || products.isEmpty()) {
+			throw new NoProductFoundUnderCategoryException();
+		}
+		model.addAttribute("products", products);
 		return "products";
 	}
 	
@@ -99,6 +107,17 @@ public class ProductController {
 	@InitBinder
 	public void initialsBinder(WebDataBinder webDataBinder) {
 		webDataBinder.setDisallowedFields("unitsInOrder", "discontinued");
+	}
+	
+	@ExceptionHandler(NoProductFoundException.class)
+	public ModelAndView errorHandler(HttpServletRequest request, NoProductFoundException noProductFoundException) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("message", noProductFoundException.getMessage());
+		modelAndView.addObject("exception", noProductFoundException);
+		modelAndView.addObject("url", request.getRequestURL()+"?"+request.getQueryString());
+		modelAndView.setViewName("productNotFound");
+		return modelAndView;
+		
 	}
 	
 	

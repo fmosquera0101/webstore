@@ -14,8 +14,9 @@
 	<section>
 		<div class="jumbotron">
 			<div class="container">
-				<h1>Products</h1>
-				<p>All the available products in our store</p>
+				<div class="alert alert-danger" role="alert">
+					${message}
+				</div>
 			</div>
 		</div>
 	</section>
@@ -23,33 +24,18 @@
 	<section class="container">
 	
 		<div class="row">
-		<div class="col-md-5">
-		<img src='<c:url value="/resources/images/product.png"></c:url>' class="card-img-top" alt="...">
-		</div>
+
 			<div class="col-sm-6 col-md-3" style="padding-bottom: 15px">
 				<div class="thumbnail">
 					<div class="caption">
-						<h3>${product.name}</h3>
-						<p>${product.description}</p>
-						<p>
-							<strong>Item code</strong>: <span class="label label-warning">${product.productId}</span>
-						</p>
-						<p>
-							<strong>Manufacturer</strong>: ${product.manufacturer}
-						</p>
-						<p>
-							<strong>Category</strong>: ${product.category}
-						</p>
-						<p>
-							<strong>Available units in Stock</strong>: ${product.unitsInStock}
-						</p>
-						<h4>${product.unitPrice}USD</h4>
-								<a href=" <spring:url value="/products"/> " class="btn btn-secondary">
+	
+						<p>${url}</p>
+						<p>${exception}</p>
+
+							<a href=" <spring:url value="/products"/> " class="btn btn-secondary">
 									<span class="glyphicon-hand-left glyphicon"></span>Back
 								</a>
-						<a href="#" class="btn btn-warning btn-large">
-							<span class="glyphicon-shopping-cart glyphicon"></span>Order Now
-						</a>
+						
 					</div>
 				</div>
 			</div>

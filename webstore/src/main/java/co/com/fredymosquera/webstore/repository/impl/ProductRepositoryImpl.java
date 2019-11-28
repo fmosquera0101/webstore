@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import co.com.fredymosquera.webstore.domain.Product;
+import co.com.fredymosquera.webstore.exception.NoProductFoundException;
 import co.com.fredymosquera.webstore.repository.ProductRepository;
 
 @Repository
@@ -139,6 +140,9 @@ public class ProductRepositoryImpl implements ProductRepository {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		if(null == product) {
+			throw new NoProductFoundException("No product found with the productId: "+productId);
 		}
 		return product;
 	}
