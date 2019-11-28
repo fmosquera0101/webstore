@@ -14,25 +14,22 @@
 <title>Products</title>
 </head>
 <body>
-	<section>
-		<div class="jumbotron">
+	<section class="jumbotron text-center">
+
 			<div class="container">
 				<h1>Products</h1>
 				<p>All the available products in our store</p>
 			</div>
-		</div>
 	</section>
-
-	<section class="container">
-
-		<div class="row">
-			<c:forEach items="${products}" var="product">
-				<div class="col-sm-6 col-md-3" style="padding-bottom: 15px ">
-					<div class="thumbnail">
-						<div class="caption">
-
-							<div class="card" style="width: 18rem;">
-								<img src='<c:url value="/resources/images/product.png"></c:url>' class="card-img-top" alt="...">
+	
+	<div class="album py-5 bg-light">
+		<div class="container">
+			<div class="row">
+				<c:forEach items="${products}" var="product">
+					<div class="col-md-4">
+						<div class="card mb-4 shadow-sm">
+								<img src='<c:url value="/resources/images/product.png"></c:url>' class="card-img-top"   alt="Product image">
+								
 								<div class="card-body">
 									<h5 class="card-title">${product.name}</h5>
 									<p class="card-text">${product.description}</p>
@@ -45,13 +42,10 @@
 									</a>
 								</div>
 							</div>
-							
-						</div>
 					</div>
-				</div>
-			</c:forEach>
+				</c:forEach>
+			</div>
 		</div>
-	</section>
-
+	</div>
 </body>
 </html>
