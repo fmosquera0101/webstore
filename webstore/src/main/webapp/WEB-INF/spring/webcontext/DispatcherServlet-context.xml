@@ -12,6 +12,7 @@
 
 	<mvc:annotation-driven enable-matrix-variables="true"/>
 	<context:component-scan  base-package="co.com.fredymosquera.webstore" />
+	<mvc:resources location="/resources/" mapping="/resources/**"></mvc:resources>
 	<context:property-placeholder location="classpath:databaseresource.properties" />
 		<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
@@ -27,6 +28,9 @@
 		<property name="url" value="${url}"></property>
 		<property name="username" value="${username}"></property>
 		<property name="password" value="${password}"></property>
+	</bean>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10240000"/>
 	</bean>
 	
 </beans>

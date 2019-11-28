@@ -1,7 +1,11 @@
 package co.com.fredymosquera.webstore.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import co.com.fredymosquera.webstore.controller.service.ProductService;
 import co.com.fredymosquera.webstore.domain.Product;
@@ -73,10 +78,19 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addNewProduct(@ModelAttribute("product") Product product, BindingResult bindibgResult, Model model) {
+	public String addNewProduct(@ModelAttribute("product") Product product, BindingResult bindibgResult, Model model, HttpServletRequest request) {
 		String[] suppressedFields = bindibgResult.getSuppressedFields();
 		if(suppressedFields.length > 0) {
 			throw new RuntimeException("Attempting to bind disallowed fields: ");
+		}
+		MultipartFile productImage = product.getProductImage();
+		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+		if(productImage != null && !productImage.isEmpty()) {
+			try {
+				productImage.transferTo(new File(rootDirectory+"resources//images//product.png"));
+			} catch (IOException e) {
+				throw new RuntimeException("Product Image failed", e);
+			}
 		}
 		productService.addProduct(product);
 		return "redirect:/products";

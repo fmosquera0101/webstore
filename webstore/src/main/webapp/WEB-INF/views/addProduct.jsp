@@ -25,7 +25,7 @@
 	</section>
 
 	<section class="container">
-		<form:form modelAttribute="product" class="form-horizontal">
+		<form:form modelAttribute="product" class="form-horizontal"  enctype="multipart/form-data">
 		<div class="form-group">
     			<label for="category">Product Category</label>
    				 	<form:select class="form-control" id="category" path="category">
@@ -66,6 +66,10 @@
 			<div class="form-group">
 				<label for="description">Description</label>
 				<form:textarea class="form-control" id="description" path="description" rows="3" maxlength="100"></form:textarea>
+			</div>
+			<div class="form-group">
+				<label for="description">Add image</label>
+				<form:input path="productImage" id="productImage" type="file" class="form:input-large"/>
 			</div>
 			
 			<input id="bntAdd" type="submit" class="btn btn-primary" value="Add"/>

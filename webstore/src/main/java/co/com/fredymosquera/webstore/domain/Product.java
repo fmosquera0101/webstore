@@ -2,6 +2,8 @@ package co.com.fredymosquera.webstore.domain;
 
 import java.math.BigDecimal;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Product {
 
 	private String productId;
@@ -13,6 +15,7 @@ public class Product {
 	private long unitsInStock;
 	private long unitsInOrder;
 	private boolean discontinued;
+	private MultipartFile productImage;
 	
 	public Product() {
 		super();
@@ -95,6 +98,15 @@ public class Product {
 
 	public void setDiscontinued(boolean discontinued) {
 		this.discontinued = discontinued;
+	}
+
+	
+	public MultipartFile getProductImage() {
+		return productImage;
+	}
+
+	public void setProductImage(MultipartFile productImage) {
+		this.productImage = productImage;
 	}
 
 	@Override

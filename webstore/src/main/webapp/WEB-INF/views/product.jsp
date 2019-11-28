@@ -23,6 +23,9 @@
 	<section class="container">
 	
 		<div class="row">
+		<div class="col-md-5">
+		<img src='<c:url value="/resources/images/product.png"></c:url>' class="card-img-top" alt="...">
+		</div>
 			<div class="col-sm-6 col-md-3" style="padding-bottom: 15px">
 				<div class="thumbnail">
 					<div class="caption">
