@@ -26,6 +26,8 @@ public class ProductRepositoryImpl implements ProductRepository {
 
 	@Autowired
 	DataSource dataSource;
+	
+	
 	@Override
 	public List<Product> getAllProducts() {
 		Connection conn;
