@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,10 +87,14 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addNewProduct(@ModelAttribute("product") Product product, BindingResult bindibgResult, Model model, HttpServletRequest request) {
-		String[] suppressedFields = bindibgResult.getSuppressedFields();
+	public String addNewProduct(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult, Model model, HttpServletRequest request) {
+		String[] suppressedFields = bindingResult.getSuppressedFields();
 		if(suppressedFields.length > 0) {
 			throw new RuntimeException("Attempting to bind disallowed fields: ");
+		}
+		
+		if(bindingResult.hasErrors()) {
+			return "addProduct";
 		}
 		MultipartFile productImage = product.getProductImage();
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");

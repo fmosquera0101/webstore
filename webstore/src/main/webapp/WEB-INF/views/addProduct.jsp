@@ -26,6 +26,7 @@
 
 	<section class="container">
 		<form:form modelAttribute="product" class="form-horizontal"  enctype="multipart/form-data">
+		<form:errors path="*" cssClass="alert alert-danger" element="div"></form:errors>
 		<div class="form-group">
     			<label for="category">Product Category</label>
    				 	<form:select class="form-control" id="category" path="category">
@@ -48,12 +49,14 @@
 			<div class="form-group">
 				<label for="name">Product Name</label>
 				<form:input id="name" path="name" type="text" class="form-text text-muted" />
+				<form:errors path="name" cssClass="text-danger"></form:errors>
 				<small id="nameHelp" class="form-text text-muted">Name for your product</small>
 			</div>
 			
 			<div class="form-group">
 				<label for="unitPrice">Price (USD)</label>
 				<form:input id="unitPrice" path="unitPrice" type="text" class="form-text text-muted" />
+				<form:errors path="unitPrice" cssClass="text-danger"></form:errors>
 				<small id="unitPriceHelp" class="form-text text-muted">Enter the unit price for the product</small>
 			</div>
 			

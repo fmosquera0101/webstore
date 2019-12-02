@@ -2,6 +2,10 @@ package co.com.fredymosquera.webstore.domain;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -13,7 +17,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Product {
 
 	private String productId;
+	@Size(min = 4, max = 50, message = "Product name")
 	private String name;
+	@Min(value = 0, message = "Product unit price")
+	@Digits(integer = 8, fraction = 2, message = "Product unit price")
+	@NotNull(message = "Product unit price cannot be null")
 	private BigDecimal unitPrice;
 	private String description;
 	private String manufacturer;
