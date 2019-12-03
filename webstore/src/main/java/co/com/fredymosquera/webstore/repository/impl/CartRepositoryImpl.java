@@ -60,7 +60,7 @@ public class CartRepositoryImpl implements CartRepository {
 		Cart cart = null;
 		try {
 			conn  = dataSource.getConnection();
-			String sqlQuery = "SELECT `productid`, `totalprice` FROM `webstore`.`cartitems` WHERE (`idcartitems` = ?)";
+			String sqlQuery = "SELECT `idcart`, `grandtotal` FROM `webstore`.`cart` WHERE (`idcart` = ?)";
 			ps = conn.prepareStatement(sqlQuery.toString());
 			int i = 1;
 			ps.setString(i++, cartId);
@@ -68,7 +68,8 @@ public class CartRepositoryImpl implements CartRepository {
 			while (rs.next()) {
 				cart = new Cart();
 				cart.setCartId(cartId);
-				cart.setGrandTotal(new BigDecimal(rs.getInt("totalprice")));
+				cart.setGrandTotal(new BigDecimal(rs.getInt("grandtotal")));
+				cart.setCartItems(cartItemsRepository.readCartItems(cartId));
 				
 			}
 		} catch (Exception e) {
@@ -102,9 +103,24 @@ public class CartRepositoryImpl implements CartRepository {
 	}
 
 	@Override
-	public void delete(String cartId) {
-		// TODO Auto-generated method stub
+	public void delete(String idCart) {
+		Connection conn;
+		PreparedStatement ps;
+		try {
+			cartItemsRepository.delete(idCart);
+			conn  = dataSource.getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql.append("DELETE FROM `webstore`.`cart`  WHERE (`idcart` = ?)  ");
+			ps = conn.prepareStatement(sql.toString());
+			int i = 1;
+			ps.setInt(i++, Integer.parseInt(idCart));
+			ps.executeUpdate();
+			
 
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
 	}
 
 }
