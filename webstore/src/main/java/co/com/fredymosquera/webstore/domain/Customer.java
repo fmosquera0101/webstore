@@ -1,21 +1,32 @@
 package co.com.fredymosquera.webstore.domain;
 
-public class Customer {
+import java.io.Serializable;
 
+public class Customer implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8351861559165969270L;
 	private String customerId;
 	private String name;
-	private String addres;
-	private String noOfOrders;
+
+	private Addres billingAndres;
+	private String phoneNumber;
 	
 	public Customer() {
 		
 	}
-	public Customer(String customerId, String name, String addres, String noOfOrders) {
+	
+
+	public Customer(String customerId, String name, Addres billingAndres, String phoneNumber) {
+		super();
 		this.customerId = customerId;
 		this.name = name;
-		this.addres = addres;
-		this.noOfOrders = noOfOrders;
+		this.billingAndres = billingAndres;
+		this.phoneNumber = phoneNumber;
 	}
+
 
 	public String getCustomerId() {
 		return customerId;
@@ -33,23 +44,22 @@ public class Customer {
 		this.name = name;
 	}
 
-	public String getAddres() {
-		return addres;
+	public Addres getBillingAndres() {
+		return billingAndres;
 	}
 
-	public void setAddres(String addres) {
-		this.addres = addres;
+	public void setBillingAndres(Addres billingAndres) {
+		this.billingAndres = billingAndres;
 	}
 
-	public String getNoOfOrders() {
-		return noOfOrders;
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
-	public void setNoOfOrders(String noOfOrders) {
-		this.noOfOrders = noOfOrders;
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
-	
-	
+
 	
 	
 }

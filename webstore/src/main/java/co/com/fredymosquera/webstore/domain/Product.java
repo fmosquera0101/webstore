@@ -1,5 +1,6 @@
 package co.com.fredymosquera.webstore.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.validation.constraints.Digits;
@@ -14,8 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @XmlRootElement
-public class Product {
+public class Product implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8944178368615544828L;
 	private String productId;
 	@Size(min = 4, max = 50, message = "Product name")
 	private String name;

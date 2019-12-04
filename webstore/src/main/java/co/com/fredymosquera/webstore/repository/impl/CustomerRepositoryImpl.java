@@ -13,7 +13,7 @@ public class CustomerRepositoryImpl implements CustomerRepository{
 
 	@Override
 	public List<Customer> getAllCustomer() {
-		Customer customer = new Customer("111", "Jhon Doe", "St false 123", "1");
+		Customer customer = new Customer();
 		List<Customer> customers = new ArrayList<>();
 		customers.add(customer);
 		return customers;
