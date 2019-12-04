@@ -31,18 +31,13 @@ public class CartRepositoryImpl implements CartRepository {
 		try {
 			conn  = dataSource.getConnection();
 			StringBuilder sql = new StringBuilder();
-			sql.append("INSERT INTO `webstore`.`cart` (`grandtotal`) VALUES (?)");
+			sql.append("INSERT INTO `webstore`.`cart` (`idcart`, `grandtotal`) VALUES (?, ?)");
 
-			ps = conn.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+			ps = conn.prepareStatement(sql.toString());
 			int i = 1;
+			ps.setString(i++, cart.getCartId());
 			ps.setInt(i++, cart.getGrandTotal().intValue());
 			ps.executeUpdate();
-			
-			ResultSet rs = ps.getGeneratedKeys();
-			if(rs.next()) {
-				int idCart = rs.getInt(1);
-				cartItemsRepository.insertCartItems(idCart, cart.geCartItems());
-			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

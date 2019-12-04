@@ -1,4 +1,4 @@
 CREATE TABLE `webstore`.`cart` (
-  `idcart` INT NOT NULL AUTO_INCREMENT,
+  `idcart` VARCHAR(300) NOT NULL,
   `grandtotal` INT NULL,
   PRIMARY KEY (`idcart`));

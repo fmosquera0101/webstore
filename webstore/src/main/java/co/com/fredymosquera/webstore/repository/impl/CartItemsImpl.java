@@ -72,7 +72,7 @@ public class CartItemsImpl implements CartItemsRepository{
 
 			ps = conn.prepareStatement(sql.toString());
 			int i =1;
-			ps.setInt(i++, Integer.parseInt(idCart));
+			ps.setString(i++, idCart);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				CartItem cartItem = new CartItem();
